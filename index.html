@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>新年快乐</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+
+    <style>
+        html,body{
+            height:100%;
+            margin:0;
+            overflow:hidden;
+            background:#12010a;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select:none;
+        }
+        *{ box-sizing:border-box; }
+
+        /* 背景：红金氛围 */
+        #bg{
+            position:fixed; inset:0; z-index:0;
+            background:
+                    radial-gradient(900px 560px at 50% 10%, rgba(255,205,145,.60), rgba(235,60,105,.80) 45%, rgba(92,10,44,.92) 72%, rgba(24,2,16,1) 100%),
+                    radial-gradient(720px 560px at 84% 20%, rgba(255,110,170,.18), transparent 60%),
+                    radial-gradient(680px 520px at 18% 18%, rgba(255,215,130,.22), transparent 62%),
+                    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0) 50%, rgba(0,0,0,.22) 100%),
+                    linear-gradient(180deg, #2a0114 0%, #1a010f 60%, #12010a 100%);
+        }
+        #bg::before{
+            content:"";
+            position:absolute; inset:0;
+            background:
+                    radial-gradient(circle at 12% 18%, rgba(255,235,220,.75) 0 1px, transparent 2px),
+                    radial-gradient(circle at 22% 28%, rgba(255,210,140,.70) 0 1px, transparent 2px),
+                    radial-gradient(circle at 38% 12%, rgba(255,255,255,.60) 0 1px, transparent 2px),
+                    radial-gradient(circle at 55% 24%, rgba(255,240,230,.55) 0 1px, transparent 2px),
+                    radial-gradient(circle at 72% 14%, rgba(255,210,140,.60) 0 1px, transparent 2px),
+                    radial-gradient(circle at 86% 26%, rgba(255,255,255,.55) 0 1px, transparent 2px),
+                    radial-gradient(circle at 16% 42%, rgba(255,210,140,.45) 0 1px, transparent 2px),
+                    radial-gradient(circle at 64% 44%, rgba(255,240,230,.42) 0 1px, transparent 2px);
+            opacity:.55;
+            filter: blur(.2px);
+            pointer-events:none;
+        }
+
+        /* 城市剪影 */
+        #skyline{
+            position:fixed; left:0; right:0; bottom:0;
+            height:26vh;
+            z-index:1;
+            pointer-events:none;
+            overflow:hidden;
+        }
+        #skyline::before{
+            content:"";
+            position:absolute; inset:-2px -2px 0 -2px;
+            background:
+                    radial-gradient(circle at 8% 78%, rgba(255,210,140,.18) 0 1px, transparent 2px),
+                    radial-gradient(circle at 14% 70%, rgba(255,235,210,.14) 0 1px, transparent 2px),
+                    radial-gradient(circle at 22% 82%, rgba(255,210,140,.16) 0 1px, transparent 2px),
+                    radial-gradient(circle at 36% 74%, rgba(255,235,210,.12) 0 1px, transparent 2px),
+                    radial-gradient(circle at 52% 86%, rgba(255,210,140,.14) 0 1px, transparent 2px),
+                    radial-gradient(circle at 63% 72%, rgba(255,235,210,.12) 0 1px, transparent 2px),
+                    radial-gradient(circle at 76% 84%, rgba(255,210,140,.14) 0 1px, transparent 2px),
+                    radial-gradient(circle at 88% 76%, rgba(255,235,210,.12) 0 1px, transparent 2px),
+                    linear-gradient(180deg, rgba(10,1,8,0) 0%, rgba(10,1,8,.20) 38%, rgba(10,1,8,.86) 78%, rgba(10,1,8,1) 100%);
+            opacity:.95;
+            filter: blur(.15px);
+            transform: translateY(6px);
+            -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 100%);
+            mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 100%);
+        }
+        #skyline::after{
+            content:"";
+            position:absolute; left:0; right:0; bottom:0;
+            height:100%;
+            background: rgba(8,0,6,.92);
+            clip-path: polygon(
+                    0% 100%, 0% 62%, 6% 62%, 6% 72%, 9% 72%, 9% 52%,
+                    13% 52%, 13% 66%, 16% 66%, 16% 44%, 22% 44%, 22% 70%,
+                    25% 70%, 25% 50%, 30% 50%, 30% 68%, 34% 68%, 34% 40%,
+                    41% 40%, 41% 74%, 45% 74%, 45% 58%, 51% 58%, 51% 72%,
+                    55% 72%, 55% 46%, 61% 46%, 61% 70%, 65% 70%, 65% 36%,
+                    73% 36%, 73% 76%, 77% 76%, 77% 54%, 83% 54%, 83% 72%,
+                    87% 72%, 87% 48%, 93% 48%, 93% 66%, 100% 66%, 100% 100%
+            );
+            opacity:.92;
+        }
+
+        /* 金粉 */
+        #dust{ position:fixed; inset:0; z-index:2; pointer-events:none; }
+        .dust{
+            position:absolute;
+            width:4px; height:4px;
+            border-radius:999px;
+            background: radial-gradient(circle, rgba(255,220,150,.9), rgba(255,220,150,0) 70%);
+            opacity:.26;
+            filter: blur(.1px);
+            animation: floatUp linear infinite;
+            will-change: transform, opacity;
+        }
+        @keyframes floatUp{
+            from{ transform: translate3d(0, 18vh, 0); opacity: 0; }
+            15%{ opacity:.26; }
+            85%{ opacity:.20; }
+            to{ transform: translate3d(0, -20vh, 0); opacity: 0; }
+        }
+
+        canvas#fw{
+            position:fixed; inset:0; z-index:3;
+            width:100%; height:100%;
+            pointer-events:none;
+            background: transparent;
+        }
+
+        /* 文案 */
+        .text{
+            position:fixed; left:0; right:0; top:10.5vh;
+            z-index:4;
+            text-align:center;
+            pointer-events:none;
+            padding:0 16px;
+        }
+        .t1{
+            font-family:"Ma Shan Zheng", cursive;
+            font-size: clamp(48px, 10.5vw, 96px);
+            color:rgba(255,255,255,.95);
+            letter-spacing: 2px;
+            text-shadow: 0 0 18px rgba(255,255,255,.18), 0 0 70px rgba(255,140,120,.26);
+            -webkit-text-stroke: 1px rgba(255,255,255,.18);
+        }
+        .t2{
+            margin-top:8px;
+            font-family:"Ma Shan Zheng", cursive;
+            font-size: clamp(32px, 7.4vw, 70px);
+            color:rgba(255,255,255,.92);
+            text-shadow: 0 0 14px rgba(255,255,255,.14), 0 0 60px rgba(255,210,120,.22);
+            -webkit-text-stroke: 1px rgba(255,255,255,.14);
+        }
+        .sub{
+            margin-top:12px;
+            font: 500 13px/1.75 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            color:rgba(255,255,255,.78);
+            letter-spacing:.6px;
+            text-shadow: 0 12px 32px rgba(0,0,0,.45);
+        }
+
+        /* 音乐按钮：两态 icon */
+        .music{
+            position:fixed;
+            right:14px; top:14px;
+            z-index:6;
+            width:42px;height:42px;
+            border-radius:14px;
+            border:1px solid rgba(255,255,255,.08);
+            background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display:grid; place-items:center;
+            box-shadow: 0 16px 42px rgba(0,0,0,.20);
+            cursor:pointer;
+            pointer-events:auto;
+            transition: transform .16s ease, opacity .16s ease;
+        }
+        .music:active{ transform: scale(.98); }
+        .music svg{ width:20px; height:20px; fill: rgba(255,255,255,.92); }
+        .music .ico{ position:absolute; inset:0; display:grid; place-items:center; }
+        .music .ico.off{ opacity:0; transform: scale(.92); transition:.18s ease; }
+        .music .ico.on{ opacity:1; transform: scale(1); transition:.18s ease; }
+        .music.off .ico.off{ opacity:1; transform: scale(1); }
+        .music.off .ico.on{ opacity:0; transform: scale(.92); }
+
+        /* 底部 */
+        .bottom{
+            position:fixed; left:0; right:0; bottom:2.8vh;
+            z-index:5;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:12px;
+            padding:0 14px env(safe-area-inset-bottom) 14px;
+            pointer-events:none;
+        }
+        .hint{
+            font: 600 12px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            color:rgba(255,255,255,.62);
+            letter-spacing:.5px;
+            text-shadow: 0 12px 34px rgba(0,0,0,.58);
+            opacity:0;
+            transform: translateY(6px);
+            transition: .25s ease;
+            pointer-events:none;
+        }
+        .hint.show{ opacity:1; transform: translateY(0); }
+        .sign{
+            font: 700 12px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            color:rgba(255,255,255,.84);
+            letter-spacing:.9px;
+            text-shadow: 0 12px 34px rgba(0,0,0,.58);
+            pointer-events:none;
+            margin-top:2px;
+        }
+
+        /* 光点按钮 */
+        .btn-wrap{ pointer-events:auto; }
+        .sparkBtn{
+            --h: 56px;
+            --w: 188px;
+            width: var(--w);
+            height: var(--h);
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,.10);
+            background:
+                    linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04)),
+                    radial-gradient(140px 70px at 30% 30%, rgba(255,220,150,.10), rgba(255,220,150,0) 62%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow:
+                    0 18px 46px rgba(0,0,0,.30),
+                    0 0 30px rgba(255,160,170,.10),
+                    inset 0 1px 0 rgba(255,255,255,.12),
+                    inset 0 -14px 22px rgba(0,0,0,.10);
+            position: relative;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            -webkit-appearance:none;
+            outline: none;
+            color: rgba(255,255,255,.92);
+            overflow: hidden;
+            isolation: isolate;
+            transition: transform .16s ease, filter .2s ease, opacity .22s ease;
+            animation: glowBreath 2.8s ease-in-out infinite;
+        }
+        .sparkBtn:active{ transform: scale(.985); filter: brightness(1.03); }
+        @keyframes glowBreath{
+            0%,100%{
+                box-shadow:
+                        0 18px 46px rgba(0,0,0,.30),
+                        0 0 26px rgba(255,160,170,.10),
+                        inset 0 1px 0 rgba(255,255,255,.12),
+                        inset 0 -14px 22px rgba(0,0,0,.10);
+            }
+            50%{
+                box-shadow:
+                        0 18px 46px rgba(0,0,0,.28),
+                        0 0 42px rgba(255,210,140,.16),
+                        inset 0 1px 0 rgba(255,255,255,.14),
+                        inset 0 -14px 22px rgba(0,0,0,.08);
+            }
+        }
+        .sparkBtn .label{
+            position: relative;
+            z-index: 3;
+            font: 900 14px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            text-shadow: 0 16px 30px rgba(0,0,0,.52);
+        }
+        .sparkBtn .sparkLayer{
+            position:absolute;
+            inset:-20px;
+            z-index: 1;
+            pointer-events:none;
+            opacity:.85;
+            transform: translateZ(0);
+        }
+        .sparkBtn .spark{
+            position:absolute;
+            width:6px; height:6px;
+            border-radius:999px;
+            background: radial-gradient(circle, rgba(255,255,255,.26), rgba(255,255,255,0) 70%);
+            opacity:0;
+            animation: floatSpark linear infinite;
+        }
+        @keyframes floatSpark{
+            0%   { transform: translate3d(0, 26px, 0) scale(.9); opacity:0; }
+            15%  { opacity:.55; }
+            70%  { opacity:.30; }
+            100% { transform: translate3d(0, -44px, 0) scale(1.15); opacity:0; }
+        }
+        .sparkBtn .tapRipple{
+            position:absolute;
+            inset:-40px;
+            border-radius:999px;
+            background: radial-gradient(circle, rgba(255,255,255,.16), rgba(255,255,255,0) 62%);
+            opacity:0;
+            transform: scale(.78);
+            z-index: 2;
+            pointer-events:none;
+            filter: blur(2px);
+        }
+        .sparkBtn .tapRipple.run{ animation: tap2 600ms ease-out forwards; }
+        @keyframes tap2{
+            0%   { opacity:.70; transform: scale(.78); }
+            100% { opacity:0;   transform: scale(1.26); }
+        }
+        .sparkBtn.started{
+            opacity:0;
+            transform: translateY(10px) scale(.98);
+            pointer-events:none;
+        }
+
+        .toast{
+            position:fixed;
+            left:50%;
+            top:64px;
+            transform: translateX(-50%) translateY(-6px);
+            z-index:10;
+            padding:8px 12px;
+            border-radius:999px;
+            background: rgba(0,0,0,.24);
+            border: 1px solid rgba(255,255,255,.10);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: rgba(255,255,255,.86);
+            font: 600 12px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            letter-spacing:.4px;
+            opacity:0;
+            pointer-events:none;
+            transition: .22s ease;
+        }
+        .toast.show{
+            opacity:1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+<div id="bg"></div>
+<div id="skyline"></div>
+<div id="dust"></div>
+<canvas id="fw"></canvas>
+
+<div class="text">
+    <div class="t1">新年快乐</div>
+    <div class="t2">万事胜意</div>
+    <div class="sub">愿你抬头见喜，低头拾光；所求皆如愿，所行皆坦途。</div>
+</div>
+
+<button class="music off" id="musicBtn" aria-label="音乐开关" title="音乐开关">
+  <span class="ico on">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3v10.55A4 4 0 1 0 14 17V7h6V3h-8z"></path>
+    </svg>
+  </span>
+    <span class="ico off">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M16.5 12a4.5 4.5 0 0 0-7.2-3.6L6.8 6.6H3v10h3.8l2.5-1.8A4.5 4.5 0 0 0 16.5 12Z" opacity=".45"></path>
+      <path d="M19.1 4.9 4.9 19.1" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round"></path>
+    </svg>
+  </span>
+</button>
+
+<div class="bottom">
+    <div class="btn-wrap">
+        <button class="sparkBtn" id="startBtn" aria-label="燃放烟花">
+            <span class="sparkLayer" id="sparkLayer" aria-hidden="true"></span>
+            <span class="label">燃放烟花</span>
+            <span class="tapRipple" id="tapRipple" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="hint" id="hint">点击屏幕：放更多烟花</div>
+    <div class="sign">— wlx</div>
+</div>
+
+<div class="toast" id="toast">音乐播放失败（请确认 mp3 与 index.html 同目录）</div>
+
+<!-- 重点：src 用本地相对路径 -->
+<audio id="bgm" preload="auto" loop playsinline webkit-playsinline></audio>
+
+<script>
+    // =========================
+    // 工具
+    // =========================
+    function getViewport() {
+        const vv = window.visualViewport;
+        if (vv && vv.width && vv.height) return { w: vv.width, h: vv.height };
+        return { w: window.innerWidth, h: window.innerHeight };
+    }
+    const capDpr = () => Math.min(window.devicePixelRatio || 1, 2);
+    const rand = (a,b) => a + Math.random()*(b-a);
+    const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+    const inWeChat = () => /MicroMessenger/i.test(navigator.userAgent);
+
+    // =========================
+    // 金粉
+    // =========================
+    function createDust() {
+        const box = document.getElementById('dust');
+        box.innerHTML = '';
+        const { w } = getViewport();
+        const count = Math.max(12, Math.min(18, Math.floor(w / 26)));
+        let created = 0;
+
+        function makeOne() {
+            const d = document.createElement('i');
+            d.className = 'dust';
+            const left = Math.random() * 100;
+            const top = 18 + Math.random() * 52;
+            const size = 3 + Math.random() * 3;
+            const dur = 7 + Math.random() * 9;
+            const delay = -Math.random() * dur;
+            d.style.left = left + 'vw';
+            d.style.top = top + 'vh';
+            d.style.width = size + 'px';
+            d.style.height = size + 'px';
+            d.style.animationDuration = dur + 's';
+            d.style.animationDelay = delay + 's';
+            d.style.opacity = (0.16 + Math.random() * 0.22).toFixed(2);
+            box.appendChild(d);
+        }
+
+        function batch() {
+            const batchSize = 6;
+            for (let i=0;i<batchSize && created<count;i++){
+                makeOne(); created++;
+            }
+            if (created < count) requestAnimationFrame(batch);
+        }
+        requestAnimationFrame(batch);
+    }
+
+    // =========================
+    // 按钮光点
+    // =========================
+    const sparkLayer = document.getElementById('sparkLayer');
+    function buildSparks(){
+        if (!sparkLayer) return;
+        sparkLayer.innerHTML = '';
+        const count = 12;
+        for (let i=0;i<count;i++){
+            const s = document.createElement('i');
+            s.className = 'spark';
+            s.style.left = (Math.random() * 100) + '%';
+            s.style.top  = (40 + Math.random() * 55) + '%';
+            const size = 4 + Math.random() * 4;
+            const dur  = 1.8 + Math.random() * 1.9;
+            const delay = -Math.random() * dur;
+            s.style.width = size + 'px';
+            s.style.height = size + 'px';
+            s.style.animationDuration = dur + 's';
+            s.style.animationDelay = delay + 's';
+            sparkLayer.appendChild(s);
+        }
+    }
+
+    // =========================
+    // 烟花引擎
+    // =========================
+    const fw = document.getElementById('fw');
+    const ctx = fw.getContext('2d', { alpha: true });
+
+    const Engine = {
+        running: false,
+        raf: 0,
+        dpr: 1, w: 0, h: 0,
+        rockets: [], sparks: [],
+        lastAuto: 0, nextAuto: 0,
+        autoRate: 1,
+        clickBoost: 0
+    };
+
+    function resizeCanvas() {
+        const vp = getViewport();
+        Engine.dpr = capDpr();
+        Engine.w = Math.floor(vp.w);
+        Engine.h = Math.floor(vp.h);
+
+        fw.width  = Math.floor(Engine.w * Engine.dpr);
+        fw.height = Math.floor(Engine.h * Engine.dpr);
+        fw.style.width = Engine.w + 'px';
+        fw.style.height = Engine.h + 'px';
+        ctx.setTransform(Engine.dpr,0,0,Engine.dpr,0,0);
+
+        const area = Engine.w * Engine.h;
+        Engine.autoRate = clamp(area / 420000, 0.95, 1.75);
+
+        ctx.clearRect(0,0,Engine.w,Engine.h);
+        Engine.lastAuto = 0;
+        Engine.nextAuto = 0;
+    }
+
+    function spawnRocket(x) {
+        const hue = rand(0, 360);
+        const speed = rand(10.8, 15.2);
+        const targetY = rand(Engine.h * 0.12, Engine.h * 0.52);
+        Engine.rockets.push({
+            x, y: Engine.h + 12,
+            vx: rand(-0.75, 0.75),
+            vy: -speed,
+            hue,
+            size: rand(1.6, 2.7),
+            targetY
+        });
+    }
+
+    function explode(x, y, hue) {
+        const extra = Engine.clickBoost > 0 ? 14 : 0;
+        const count = Math.floor(rand(30, 44)) + extra;
+        const base = rand(2.5, 4.2);
+
+        for (let i=0;i<count;i++){
+            const a = (Math.PI*2) * (i / count) + rand(-0.10, 0.10);
+            const sp = base * rand(0.65, 1.35);
+            Engine.sparks.push({
+                x,y,
+                vx: Math.cos(a) * sp,
+                vy: Math.sin(a) * sp,
+                hue: (hue + rand(-22,22) + 360) % 360,
+                alpha: 1,
+                decay: rand(0.010, 0.020),
+                size: rand(1.0, 2.2),
+                core: false
+            });
+        }
+        for (let k=0;k<4;k++){
+            Engine.sparks.push({
+                x,y,
+                vx: rand(-0.75, 0.75),
+                vy: rand(-0.75, 0.75),
+                hue: (hue + rand(-12,12) + 360) % 360,
+                alpha: 1,
+                decay: rand(0.016, 0.028),
+                size: rand(1.7, 2.9),
+                core: true
+            });
+        }
+    }
+
+    function burstAt(x, y, strength=1) {
+        const n = Math.floor(10 * strength);
+        for (let i=0;i<n;i++){
+            const rx = x + rand(-Engine.w * 0.12, Engine.w * 0.12);
+            spawnRocket(clamp(rx, 20, Engine.w - 20));
+        }
+        Engine.clickBoost = 140;
+    }
+
+    function loop(t) {
+        if (!Engine.running) return;
+
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillStyle = 'rgba(0,0,0,0.16)';
+        ctx.fillRect(0,0,Engine.w,Engine.h);
+
+        if (!Engine.lastAuto) Engine.lastAuto = t;
+        const boost = Engine.clickBoost > 0 ? 0.55 : 1.0;
+        if (t - Engine.lastAuto >= Engine.nextAuto) {
+            const times = Math.random() < 0.46 ? 2 : 1;
+            for (let k=0;k<times;k++){
+                spawnRocket(rand(Engine.w*0.10, Engine.w*0.90));
+            }
+            Engine.lastAuto = t;
+            Engine.nextAuto = (rand(420, 760) / Engine.autoRate) * boost;
+        }
+
+        ctx.globalCompositeOperation = 'lighter';
+
+        for (let i=Engine.rockets.length-1;i>=0;i--){
+            const r = Engine.rockets[i];
+            r.x += r.vx; r.y += r.vy;
+            r.vy += 0.008;
+            r.vx *= 0.988; r.vy *= 0.988;
+
+            ctx.beginPath();
+            ctx.fillStyle = `hsla(${r.hue},100%,70%,0.92)`;
+            ctx.arc(r.x, r.y, r.size, 0, Math.PI*2);
+            ctx.fill();
+
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.beginPath();
+            ctx.strokeStyle = `hsla(${r.hue},100%,65%,0.18)`;
+            ctx.lineWidth = 1.2;
+            ctx.moveTo(r.x, r.y);
+            ctx.lineTo(r.x - r.vx*2.8, r.y - r.vy*2.8);
+            ctx.stroke();
+            ctx.globalCompositeOperation = 'lighter';
+
+            if (r.y <= r.targetY || r.vy > -1.6) {
+                explode(r.x, r.y, r.hue);
+                Engine.rockets.splice(i,1);
+            }
+        }
+
+        for (let i=Engine.sparks.length-1;i>=0;i--){
+            const p = Engine.sparks[i];
+            p.x += p.vx; p.y += p.vy;
+            p.vy += 0.065;
+            p.vx *= 0.965; p.vy *= 0.965;
+            p.alpha -= p.decay;
+
+            if (p.alpha <= 0) { Engine.sparks.splice(i,1); continue; }
+
+            const a = Math.min(1, p.alpha);
+            ctx.fillStyle = `hsla(${p.hue},100%,70%,${(p.core?0.95:0.78)*a})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+            ctx.fill();
+
+            ctx.fillStyle = `hsla(${p.hue},100%,65%,${0.18*a})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size*5.4, 0, Math.PI*2);
+            ctx.fill();
+        }
+
+        if (Engine.clickBoost > 0) Engine.clickBoost--;
+        Engine.raf = requestAnimationFrame(loop);
+    }
+
+    function startFireworks() {
+        if (Engine.running) return;
+        Engine.running = true;
+
+        burstAt(Engine.w*0.5, Engine.h*0.66, 1.9);
+        setTimeout(() => burstAt(Engine.w*0.24, Engine.h*0.56, 1.3), 220);
+        setTimeout(() => burstAt(Engine.w*0.76, Engine.h*0.56, 1.3), 420);
+
+        Engine.raf = requestAnimationFrame(loop);
+    }
+
+    // =========================
+    // 音乐：本地 mp3（同目录）
+    // =========================
+    const toast = document.getElementById('toast');
+    let toastTimer = 0;
+    function showToast(msg){
+        if (msg) toast.textContent = msg;
+        clearTimeout(toastTimer);
+        toast.classList.add('show');
+        toastTimer = setTimeout(()=>toast.classList.remove('show'), 1800);
+    }
+
+    const bgm = document.getElementById('bgm');
+
+    // 关键：同目录文件
+    const BGM_URL = "./chinaX.mp3";
+    bgm.src = BGM_URL;
+
+    // 微信/移动端关键属性
+    bgm.preload = 'auto';
+    bgm.loop = true;
+    bgm.playsInline = true;
+    bgm.setAttribute('playsinline', '');
+    bgm.setAttribute('webkit-playsinline', '');
+
+    // 注意：不要设置 crossOrigin（同域不需要，微信可能更容易失败）
+
+    const musicBtn = document.getElementById('musicBtn');
+    let musicOn = false;
+
+    function setMusicUI(on){
+        musicOn = on;
+        if (on) musicBtn.classList.remove('off');
+        else musicBtn.classList.add('off');
+    }
+
+    function waitWeixinBridge() {
+        return new Promise((resolve) => {
+            if (!inWeChat()) return resolve();
+            if (window.WeixinJSBridge && window.WeixinJSBridge.invoke) return resolve();
+            document.addEventListener('WeixinJSBridgeReady', resolve, { once: true });
+        });
+    }
+
+    // 强兼容：桥 ready + 静音解锁
+    async function playMusic() {
+        try {
+            await waitWeixinBridge();
+
+            // 触发加载
+            bgm.load();
+
+            // 解锁：静音播放一次
+            bgm.muted = true;
+            await bgm.play();
+            bgm.pause();
+            try { bgm.currentTime = 0; } catch (_) {}
+
+            // 正常播放
+            bgm.muted = false;
+            await bgm.play();
+
+            setMusicUI(true);
+        } catch (e) {
+            setMusicUI(false);
+            showToast("音乐播放失败：请确认同目录有 chinaX.mp3 且用 HTTPS 访问");
+            console.warn('[BGM] play failed:', e);
+        }
+    }
+
+    function pauseMusic() {
+        bgm.pause();
+        setMusicUI(false);
+    }
+
+    musicBtn.addEventListener('click', () => {
+        if (!musicOn) playMusic();
+        else pauseMusic();
+    });
+
+    bgm.addEventListener('play', () => setMusicUI(true));
+    bgm.addEventListener('pause', () => setMusicUI(false));
+    bgm.addEventListener('ended', () => setMusicUI(false));
+    bgm.addEventListener('error', () => {
+        setMusicUI(false);
+        showToast("音频加载失败：路径/部署可能不对");
+    });
+
+    // =========================
+    // UI：按钮点击 -> 启动烟花 + 播放音乐
+    // =========================
+    const startBtn = document.getElementById('startBtn');
+    const tapRipple = document.getElementById('tapRipple');
+    const hint = document.getElementById('hint');
+    let started = false;
+
+    function runTapRipple() {
+        tapRipple.classList.remove('run');
+        void tapRipple.offsetWidth;
+        tapRipple.classList.add('run');
+    }
+
+    startBtn.addEventListener('click', async () => {
+        runTapRipple();
+        if (started) return;
+        started = true;
+
+        startFireworks();
+
+        // 必须由用户点击触发，微信才允许
+        await playMusic();
+
+        setTimeout(() => startBtn.classList.add('started'), 120);
+        hint.classList.add('show');
+    });
+
+    document.addEventListener('pointerdown', (e) => {
+        if (!started || !Engine.running) return;
+        if (e.target === startBtn || startBtn.contains(e.target) || e.target === musicBtn || musicBtn.contains(e.target)) return;
+        const x = e.clientX, y = e.clientY;
+        const strength = 1 + (1 - y / Engine.h) * 0.9;
+        burstAt(x, y, strength);
+    }, { passive:true });
+
+    // =========================
+    // 初始化
+    // =========================
+    let resizeTimer = null;
+    function scheduleResize() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            resizeCanvas();
+            createDust();
+            buildSparks();
+            if (Engine.running) burstAt(Engine.w*0.5, Engine.h*0.68, 1.1);
+        }, 120);
+    }
+    window.addEventListener('resize', scheduleResize, { passive:true });
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', scheduleResize, { passive:true });
+
+    function boot() {
+        requestAnimationFrame(() => {
+            resizeCanvas();
+            createDust();
+            buildSparks();
+            setTimeout(() => resizeCanvas(), 120);
+        });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once:true });
+    else boot();
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && musicOn) pauseMusic();
+    });
+</script>
+</body>
+</html>
